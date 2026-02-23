@@ -1,0 +1,93 @@
+// Prisma schema for Femmes et Droit UdeM-style site
+// PostgreSQL + editable content (banner, carousel, comité, blog, podcast, events, sponsors)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ----- Auth -----
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// ----- Site-wide settings (banner, etc.) -----
+model SiteSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}
+
+// ----- Home: logo carousel -----
+model CarouselImage {
+  id       String @id @default(cuid())
+  imageUrl String
+  order    Int    @default(0)
+}
+
+
+// ----- Blog posts (draft/publish, rich text). Author = committee member. -----
+model Post {
+  id                String           @id @default(cuid())
+  title             String
+  slug              String           @unique
+  coverImageUrl     String?
+  content           String           // TipTap JSON or HTML
+  committeeMemberId String?
+  committeeMember   CommitteeMember?  @relation(fields: [committeeMemberId], references: [id], onDelete: SetNull)
+  publishedAt       DateTime?        // null = draft
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+// ----- Notre Comité: members (also used as blog authors, podcast hosts) -----
+model CommitteeMember {
+  id              String           @id @default(cuid())
+  imageUrl        String
+  name            String
+  title           String
+  order           Int              @default(0)
+  posts           Post[]
+  podcastEpisodes PodcastEpisode[]
+}
+
+// ----- Podcast: YouTube links + date, cover, author -----
+model PodcastEpisode {
+  id                String           @id @default(cuid())
+  title             String
+  youtubeUrl        String
+  description       String
+  coverImageUrl     String?
+  publishedAt       DateTime?        // episode date
+  order             Int              @default(0)
+  committeeMemberId String?
+  committeeMember   CommitteeMember? @relation(fields: [committeeMemberId], references: [id], onDelete: SetNull)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+// ----- Events (calendar) -----
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  startDate   DateTime
+  endDate     DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ----- Guide des commanditaires: images (add/delete/reorder) -----
+model SponsorImage {
+  id       String @id @default(cuid())
+  imageUrl String
+  order    Int    @default(0)
+}

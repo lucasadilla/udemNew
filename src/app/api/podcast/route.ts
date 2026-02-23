@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 export async function GET() {
   try {
     const episodes = await prisma.podcastEpisode.findMany({
-      orderBy: [{ order: "asc" }, { publishedAt: "desc" }, { createdAt: "desc" }],
+      orderBy: { order: "asc" },
       include: { committeeMember: true },
     });
     return NextResponse.json(episodes);

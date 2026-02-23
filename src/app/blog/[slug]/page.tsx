@@ -64,7 +64,7 @@ export default async function BlogPostPage({
                   ·
                 </span>
                 <time
-                  dateTime={post.publishedAt}
+                  dateTime={post.publishedAt.toISOString()}
                   className="text-sm text-slate-500"
                 >
                   {new Date(post.publishedAt).toLocaleDateString("fr-CA", {

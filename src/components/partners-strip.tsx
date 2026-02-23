@@ -138,23 +138,29 @@ export function PartnersStrip() {
           )
         )}
         {carousel.length > 0 ? (
-          <div className="flex w-full overflow-hidden">
-            <ul
-              className="flex shrink-0 items-center gap-16 py-6"
+          <div
+            className="partners-marquee-viewport relative left-1/2 right-1/2 w-screen -translate-x-1/2 overflow-hidden py-6"
+            aria-hidden
+          >
+            <div
+              className="partners-marquee-track flex flex-nowrap items-center gap-16 py-6"
               style={{
                 width: "max-content",
-                animation: "infinite-scroll-continuous 30s linear infinite",
+                animation: "partners-marquee-scroll 60s linear infinite",
+                willChange: "transform",
               }}
             >
-              {[...carousel, ...carousel, ...carousel, ...carousel].map((item, index) => (
-                <li
+              {[...carousel, ...carousel, ...carousel, ...carousel, ...carousel, ...carousel].map((item, index) => (
+                <div
                   key={`${item.id}-${index}`}
-                  className="relative shrink-0 list-none"
+                  className="relative flex shrink-0 items-center"
                 >
                   <img
                     src={item.imageUrl}
                     alt=""
                     className="h-28 w-auto max-h-32 object-contain opacity-90 hover:opacity-100 md:h-36 md:max-h-40"
+                    loading="lazy"
+                    draggable={false}
                   />
                   {canEdit && isEditMode && (
                     <button
@@ -165,9 +171,9 @@ export function PartnersStrip() {
                       ×
                     </button>
                   )}
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         ) : null}
       </div>

@@ -99,7 +99,7 @@ export function HomeClient({ recentPosts = [] }: Props) {
             quality={95}
             priority
             wrapperClassName="h-full w-full"
-            className="object-contain object-center"
+            className="object-contain object-center md:object-cover"
             onReplace={saveBanner}
             replaceButtonPosition="center"
           />

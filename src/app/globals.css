@@ -65,6 +65,19 @@ body {
   }
 }
 
+/* Partners strip: 6 copies, scroll exactly 1/6 = one copy → seamless (no visible loop), fills viewport */
+.partners-marquee-track {
+  transform: translateZ(0); /* GPU layer for smooth animation */
+}
+@keyframes partners-marquee-scroll {
+  from {
+    transform: translateZ(0) translateX(0);
+  }
+  to {
+    transform: translateZ(0) translateX(-16.666667%);
+  }
+}
+
 /* Navbar link: underline enters from left on hover, leaves to right on hover off */
 .nav-link-underline {
   position: relative;

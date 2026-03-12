@@ -6,6 +6,7 @@ import { EditModeProvider } from "@/contexts/edit-mode";
 import { Header } from "@/components/header";
 import { FooterWrapper } from "@/components/footer-wrapper";
 import { PartnersStripWrapper } from "@/components/partners-strip-wrapper";
+import { Analytics } from "@vercel/analytics/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -55,6 +56,7 @@ export default function RootLayout({
             <FooterWrapper />
           </EditModeProvider>
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
